@@ -4,7 +4,7 @@
   <groupId>com.vinay</groupId>
   <artifactId>vinayproj</artifactId>
   <packaging>jar</packaging>
-  <version>1.4</version>
+  <version>1.5</version>
   <name>vinayproj</name>
   <url>http://maven.apache.org</url>
       <properties>
