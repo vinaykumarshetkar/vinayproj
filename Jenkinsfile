@@ -1,12 +1,7 @@
 pipeline {
-    agent any
+    agent { label 'node1' }
 
     stages {
-        stage('clone project') {
-            steps {
-                git branch: 'main', url: 'https://github.com/vinaykumarshetkar/vinayproj.git'
-            }
-        }
 
         stage('clean') {
             steps {
