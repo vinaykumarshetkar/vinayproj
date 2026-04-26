@@ -31,15 +31,15 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-	}
-	    stages {
+
         stage('SMTP Test') {
             steps {
                 sh 'telnet smtp.gmail.com 587 || true'
             }
         }
-		}
-	post {
+    }
+
+    post {
         success {
             emailext(
                 to: 'vinay.reports.abc@gmail.com',
@@ -56,5 +56,4 @@ pipeline {
             )
         }
     }
-    
 }
