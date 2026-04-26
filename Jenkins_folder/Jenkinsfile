@@ -38,6 +38,7 @@ pipeline {
                 sh 'telnet smtp.gmail.com 587 || true'
             }
         }
+		}
 	post {
         success {
             emailext(
