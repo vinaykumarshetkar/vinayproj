@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('clone project') {
             steps {
-                git branch: 'main', url: 'https://github.com/vinaykumarshetkar/vinayproj.git'
+                git branch: 'vinaykumarshetkar-patch-1', url: 'https://github.com/vinaykumarshetkar/vinayproj.git'
             }
         }
 
