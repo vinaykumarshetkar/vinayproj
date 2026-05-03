@@ -32,28 +32,6 @@ pipeline {
             }
         }
 
-        stage('SMTP Test') {
-            steps {
-                sh 'telnet smtp.gmail.com 587 || true'
-            }
-        }
-    }
 
-    post {
-        success {
-            emailext(
-                to: 'vinay.reports.abc@gmail.com',
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build succeeded. Check: ${env.BUILD_URL}"
-            )
-        }
-
-        failure {
-            emailext(
-                to: 'vinay.reports.abc@gmail.com',
-                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build failed. Check: ${env.BUILD_URL}"
-            )
-        }
     }
 }
