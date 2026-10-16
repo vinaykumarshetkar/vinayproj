@@ -11,7 +11,7 @@
     <property name="java.vm.specification.version" value="17"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/mnt/d/ABC/tools/mvn/vinayproj/target/surefire/surefirebooter-20261016043205732_3.jar /mnt/d/ABC/tools/mvn/vinayproj/target/surefire 2026-10-16T04-32-05_182-jvmRun1 surefire-20261016043205732_1tmp surefire_0-20261016043205732_2tmp"/>
+    <property name="sun.java.command" value="/mnt/d/ABC/tools/mvn/vinayproj/target/surefire/surefirebooter-20261016054914185_3.jar /mnt/d/ABC/tools/mvn/vinayproj/target/surefire 2026-10-16T05-49-14_020-jvmRun1 surefire-20261016054914185_1tmp surefire_0-20261016054914185_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/mnt/d/ABC/tools/mvn/vinayproj/target/test-classes:/mnt/d/ABC/tools/mvn/vinayproj/target/classes:/home/ajay/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -26,7 +26,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/mnt/d/ABC/tools/mvn/vinayproj/target/surefire/surefirebooter-20261016043205732_3.jar"/>
+    <property name="surefire.real.class.path" value="/mnt/d/ABC/tools/mvn/vinayproj/target/surefire/surefirebooter-20261016054914185_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.20.1+1-1-24.04-Ubuntu"/>
     <property name="user.name" value="ajay"/>
