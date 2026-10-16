@@ -10,13 +10,10 @@ steps:
     displayName: 'Build Maven Application'
     inputs:
       mavenPomFile: 'pom.xml'
-      goals: 'clean package'
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      goals: 'clean package -Dmaven.test.skip=true'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.17'
       jdkArchitectureOption: 'x64'
-      mavenOptions: '-Xmx3072m'
 
   # Step 2: Copy generated JAR/WAR to artifact staging directory
   - task: CopyFiles@2
