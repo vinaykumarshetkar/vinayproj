@@ -1,0 +1,31 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  # Step 1: Build Maven project and run tests
+  - task: Maven@4
+    displayName: 'Build Maven Application'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean package'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      jdkArchitectureOption: 'x64'
+      mavenOptions: '-Xmx3072m'
+
+  # Step 2: Copy generated JAR/WAR to artifact staging directory
+  - task: CopyFiles@2
+    displayName: 'Stage Maven Artifact'
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)'
+      Contents: |
+        **/target/*.jar
+        **/target/*.war
+        !**/target/original-*.jar
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      flattenFolders: true
