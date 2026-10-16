@@ -13,8 +13,8 @@
     </properties>
    <repositories>
 	<repository>
-	  <id>Test</id>
-	  <url>https://pkgs.dev.azure.com/adikarthikgupta/Calculator/_packaging/Test/maven/v1</url>
+	  <id>aks3</id>
+	  <url>https://pkgs.dev.azure.com/financialvinay07/ado-vinay/_packaging/aks3/maven/v1</url>
 	  <releases>
 		<enabled>true</enabled>
 	  </releases>
@@ -26,8 +26,8 @@
 
 <distributionManagement>
 	<repository>
-	  <id>Test</id>
-	  <url>https://pkgs.dev.azure.com/adikarthikgupta/Calculator/_packaging/Test/maven/v1</url>
+	  <id>aks3</id>
+	  <url>https://pkgs.dev.azure.com/financialvinay07/ado-vinay/_packaging/aks3/maven/v1</url>
 	  <releases>
 		<enabled>true</enabled>
 	  </releases>
