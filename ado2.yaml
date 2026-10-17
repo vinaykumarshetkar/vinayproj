@@ -1,28 +1,93 @@
+
 trigger:
   - main
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
-  # Step 1: Build Maven project and run tests
-  - task: Maven@4
+stages:
+  # Stage 1: Build Maven project and publish artifact
+  - stage: Build
     displayName: 'Build Maven Application'
-    inputs:
-      mavenPomFile: 'pom.xml'
-      goals: 'clean package -Dmaven.test.skip=true'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.17'
-      jdkArchitectureOption: 'x64'
+    jobs:
+      - job: MavenBuild
+        displayName: 'Build and Package JAR'
+        pool:
+          vmImage: 'ubuntu-latest'
 
-  # Step 2: Copy generated JAR/WAR to artifact staging directory
-  - task: CopyFiles@2
-    displayName: 'Stage Maven Artifact'
-    inputs:
-      SourceFolder: '$(System.DefaultWorkingDirectory)'
-      Contents: |
-        **/target/*.jar
-        **/target/*.war
-        !**/target/original-*.jar
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-      flattenFolders: true
+        steps:
+          - checkout: self
+
+          # Build Maven project, skipping tests
+          - task: Maven@4
+            displayName: 'Build Maven Application'
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: 'clean package -Dmaven.test.skip=true'
+              javaHomeOption: 'JDKVersion'
+              jdkVersionOption: '1.17'
+              jdkArchitectureOption: 'x64'
+
+          # Copy JAR/WAR to artifact staging directory
+          - task: CopyFiles@2
+            displayName: 'Stage Maven Artifact'
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)'
+              Contents: |
+                **/target/*.jar
+                **/target/*.war
+                !**/target/original-*.jar
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+              flattenFolders: true
+
+          # Publish the artifact for later stages
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Maven Artifact'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
+
+  # Stage 2: Download artifact and build Docker image
+  - stage: DockerBuild
+    displayName: 'Build Docker Image'
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: BuildImage
+        displayName: 'Create Docker Image'
+        pool:
+          vmImage: 'ubuntu-latest'
+
+        steps:
+          - checkout: self
+
+          # Download JAR artifact from Stage 1
+          - task: DownloadBuildArtifacts@1
+            displayName: 'Download Maven Artifact'
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'drop'
+              downloadPath: '$(Build.SourcesDirectory)'
+
+          # Verify downloaded JAR
+          - script: |
+              echo "Downloaded artifact files:"
+              ls -lh "$(Build.SourcesDirectory)/drop"
+            displayName: 'Verify Maven Artifact'
+
+          # Build Docker image
+          - task: Docker@2
+            displayName: 'Build Docker Image'
+            inputs:
+              command: 'build'
+              repository: 'vinayproj'
+              Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+              buildContext: '$(Build.SourcesDirectory)'
+              tags: |
+                $(Build.BuildId)
+                latest
+
+          # Verify image
+          - script: |
+              docker images vinayproj
+            displayName: 'Verify Docker Image'
