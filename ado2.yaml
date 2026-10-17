@@ -32,8 +32,6 @@ stages:
               SourceFolder: '$(System.DefaultWorkingDirectory)'
               Contents: |
                 **/target/*.jar
-                **/target/*.war
-                !**/target/original-*.jar
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               flattenFolders: true
 
