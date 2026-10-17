@@ -92,14 +92,20 @@ stages:
               docker images vinayproj
             displayName: 'Verify Docker Image'
 
-          - task: Docker@2
-            displayName: 'Push Image to ACR'
+          - task: AzureCLI@2
+            displayName: 'Build and Push Image to ACR'
             inputs:
-              command: 'buildAndPush'
-              containerRegistry: 'sp-aks-cicd'
-              repository: 'vinayproj'
-              Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-              buildContext: '$(Build.SourcesDirectory)'
-              tags: |
-                $(Build.BuildId)
-                latest
+              azureSubscription: 'sp-aks-cicd'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az acr login --name aks3vinayproj
+
+                docker build \
+                  -t aks3vinayproj.azurecr.io/vinayproj:$(Build.BuildId) \
+                  -t aks3vinayproj.azurecr.io/vinayproj:latest \
+                  -f "$(Build.SourcesDirectory)/Dockerfile" \
+                  "$(Build.SourcesDirectory)"
+
+                docker push aks3vinayproj.azurecr.io/vinayproj:$(Build.BuildId)
+                docker push aks3vinayproj.azurecr.io/vinayproj:latest
