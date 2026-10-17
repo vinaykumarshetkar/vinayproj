@@ -1,4 +1,3 @@
-
 package com.vinay;
 
 import org.springframework.web.bind.annotation.GetMapping;
