@@ -1,0 +1,6 @@
+
+services:
+  app:
+    image: vinayproj:1.0
+    container_name: vinayproj-app
+    restart: "no"
