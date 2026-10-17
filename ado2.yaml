@@ -91,3 +91,15 @@ stages:
           - script: |
               docker images vinayproj
             displayName: 'Verify Docker Image'
+
+          - task: Docker@2
+            displayName: 'Push Image to ACR'
+            inputs:
+              command: 'buildAndPush'
+              containerRegistry: 'sp-aks-cicd'
+              repository: 'vinayproj'
+              Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+              buildContext: '$(Build.SourcesDirectory)'
+              tags: |
+                $(Build.BuildId)
+                latest
