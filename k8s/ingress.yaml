@@ -1,16 +1,1 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: vinayproj-nginx-ingress
-spec:
-  ingressClassName: nginx
-  rules:
-    - http:
-        paths:
-          - path: /app1
-            pathType: Prefix
-            backend:
-              service:
-                name: vinayproj-service1
-                port:
-                  number: 80
+
