@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vinayproj-path-ingress
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+    - host: vinayproj-aks3-test.centralus.cloudapp.azure.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: demo1-service
+                port:
+                  number: 8080
+
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vinayproj-service
+                port:
+                  number: 80
