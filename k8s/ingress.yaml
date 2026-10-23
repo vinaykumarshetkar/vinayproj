@@ -20,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: vinayproj-service
+                name: vinayproj-service1
                 port:
                   number: 80
