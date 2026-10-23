@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vinayproj
+  name: vinayproj1
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: vinayproj
+      app: vinayproj1
   template:
     metadata:
       labels:
-        app: vinayproj
+        app: vinayproj1
     spec:
       containers:
-        - name: vinayproj
+        - name: vinayproj1
           image: aks3vinayproj.azurecr.io/vinayproj:3.4
           ports:
             - containerPort: 8080
@@ -29,10 +29,3 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
-          resources:
-            requests:
-              cpu: 100m
-              memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
