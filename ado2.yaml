@@ -1,7 +1,5 @@
 
-trigger:
-  - main
-
+trigger: none
 stages:
   # Stage 1: Build Maven project and publish artifact
   - stage: Build
