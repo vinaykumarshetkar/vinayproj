@@ -1,0 +1,28 @@
+name: My First Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  first-job:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Print Message
+        run: echo "Hello Vinay"
+
+      - name: Check Linux Version
+        run: uname -a
+
+      - name: Check Current Directory
+        run: pwd
+
+      - name: List Files
+        run: ls -la
