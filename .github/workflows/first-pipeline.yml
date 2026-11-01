@@ -1,17 +1,20 @@
+
 name: My First Pipeline
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+
   workflow_dispatch:
 
 jobs:
 
+  # Job 1: Basic Linux checks
   first-job:
+    name: Basic Linux Checks
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -26,10 +29,13 @@ jobs:
 
       - name: List Files
         run: ls -la
-  # Stage 1: Build Maven application
+
+
+  # Job 2: Maven Build
   build:
     name: Build Maven Application
     runs-on: ubuntu-latest
+    needs: first-job
 
     steps:
       - name: Checkout Source Code
@@ -43,16 +49,20 @@ jobs:
           cache: maven
 
       - name: Build Maven Application
-        run: |
-          mvn clean package -Dmaven.test.skip=true
+        run: mvn clean package -Dmaven.test.skip=true
+
+      - name: Verify JAR
+        run: ls -lh target/*.jar
 
       - name: Upload Maven Artifact
         uses: actions/upload-artifact@v4
         with:
           name: drop
-          path: '**/target/*.jar'
+          path: target/*.jar
           if-no-files-found: error
 
+
+  # Job 3: Docker Build and Push
   docker-push:
     name: Build and Push to Docker Hub
     runs-on: ubuntu-latest
@@ -68,9 +78,16 @@ jobs:
           name: drop
           path: ./drop
 
+      - name: Verify Downloaded JAR
+        run: |
+          find ./drop -type f -ls
+
       - name: Prepare Docker Context
         run: |
-          cp ./drop/*.jar .
+          JAR=$(find ./drop -name "*.jar" -type f | head -n 1)
+          test -n "$JAR"
+          cp "$JAR" ./app.jar
+          ls -lh app.jar
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
