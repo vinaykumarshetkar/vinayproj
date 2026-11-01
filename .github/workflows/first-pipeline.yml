@@ -1,9 +1,8 @@
 name: My First Pipeline
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
 
@@ -26,3 +25,29 @@ jobs:
 
       - name: List Files
         run: ls -la
+  # Stage 1: Build Maven application
+  build:
+    name: Build Maven Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Build Maven Application
+        run: |
+          mvn clean package -Dmaven.test.skip=true
+
+      - name: Upload Maven Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: drop
+          path: '**/target/*.jar'
+          if-no-files-found: error
