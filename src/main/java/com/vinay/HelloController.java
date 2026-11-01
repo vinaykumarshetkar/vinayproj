@@ -9,5 +9,7 @@ public class HelloController {
     @GetMapping("/")
     public String hello() {
         return "Hello World from Spring Boot and Docker!";
+
+                       "This is my 3rd line!";
     }
 }
