@@ -88,7 +88,17 @@ jobs:
           test -n "$JAR"
           cp "$JAR" ./app.jar
           ls -lh app.jar
-
+      - name: Verify Docker Hub Secrets
+        run: |
+          if [ -z "$DOCKER_TOKEN" ]; then
+            echo "ERROR: Docker Hub token is missing"
+            exit 1
+          else
+            echo "SUCCESS: Docker Hub token is available"
+          fi
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
